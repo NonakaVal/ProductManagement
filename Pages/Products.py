@@ -135,53 +135,53 @@ if not select.empty:
 st.divider()
 st.divider()
 
-def main():
-    st.write("#### Selecione os itens para gerar etiquetas.")
-    # Selecionar itens
+# def main():
+#     st.write("#### Selecione os itens para gerar etiquetas.")
+#     # Selecionar itens
 
 
-    tab1, tab2 = st.tabs(["Etiqueta com Barra de Código", "Etiqueta com QRCODE"])
+#     tab1, tab2 = st.tabs(["Etiqueta com Barra de Código", "Etiqueta com QRCODE"])
 
-    with tab1:
+#     with tab1:
                 
-        df = select_items(products)
+#         df = select_items(products)
 
         
-        # Configurações para etiquetas
-        config = {
-            'margin_top': 70,
-            'margin_bottom': 50,
-            'margin_left': 70,
-            'margin_right': 50,
-            'spacing_horizontal': 40,
-            'spacing_vertical': 55,
-            'name_font_size': 25,
-            'small_font_size': 25,
-            'name_x': 55,
-            'name_y': 50,
-            'ad_code_x': 55,
-            'ad_code_y': 100,
-            'barcode_x': 10,
-            'barcode_bottom_padding': 10,
-            'barcode_width': 650,
-            'barcode_height': 100
-        }
-        if st.button("Gerar PDF e Baixar"):
-            if df.empty:
-                st.warning("Por favor, selecione pelo menos um item!")
-            else:
-                pdf_path = create_labels_from_dataframe_with_barcode(df, config)
-                with open(pdf_path, "rb") as pdf_file:
-                    st.download_button(
-                        label="Baixar PDF",
-                        data=pdf_file,
-                        file_name="etiquetas_barcode_33_a4.pdf",
-                        mime="application/pdf"
-                    )
-    with tab2:
-        create_qrcode_labels()
+#         # Configurações para etiquetas
+#         config = {
+#             'margin_top': 70,
+#             'margin_bottom': 50,
+#             'margin_left': 70,
+#             'margin_right': 50,
+#             'spacing_horizontal': 40,
+#             'spacing_vertical': 55,
+#             'name_font_size': 25,
+#             'small_font_size': 25,
+#             'name_x': 55,
+#             'name_y': 50,
+#             'ad_code_x': 55,
+#             'ad_code_y': 100,
+#             'barcode_x': 10,
+#             'barcode_bottom_padding': 10,
+#             'barcode_width': 650,
+#             'barcode_height': 100
+#         }
+#         if st.button("Gerar PDF e Baixar"):
+#             if df.empty:
+#                 st.warning("Por favor, selecione pelo menos um item!")
+#             else:
+#                 pdf_path = create_labels_from_dataframe_with_barcode(df, config)
+#                 with open(pdf_path, "rb") as pdf_file:
+#                     st.download_button(
+#                         label="Baixar PDF",
+#                         data=pdf_file,
+#                         file_name="etiquetas_barcode_33_a4.pdf",
+#                         mime="application/pdf"
+#                     )
+#     with tab2:
+#         create_qrcode_labels()
     
-main()
+# main()
 
 
 
