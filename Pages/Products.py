@@ -4,8 +4,8 @@ import streamlit as st
 from Utils.LoadDataFrame import load_and_process_data
 from Utils.Selectors import select_items_to_ad
 from Utils.GoogleSheetManager import GoogleSheetManager
-from Utils.LabelCreator import create_labels_from_dataframe_with_barcode
-from Utils.QRcodeLabelCreator import create_qrcode_labels
+# from Utils.LabelCreator import create_labels_from_dataframe_with_barcode
+# from Utils.QRcodeLabelCreator import create_qrcode_labels
 
 
 ##############################################################################################
