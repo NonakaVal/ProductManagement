@@ -1,0 +1,44 @@
+{
+    "sony": {
+      "jogos-consoles": [
+        "ps1", "playstation1", "playstation 1",
+        "playstation2", "ps2", "playstation 2",
+        "playstation3", "playstation 3", "ps3",  "Sony Playstation3 Ps3 250gb Shin Hokuto Musou Ps3",
+        "playstation4", "playstation 4" , "ps4", "sony",
+        "playstation5", "ps5", "playstation 5",
+        "psvita", "vita", "ps vita","psp"
+      ],
+      "acessorios": [
+        "memory", "camera", "charger", "adapter", "stand", "cover",  "skin", 
+        "cable", "charging", "dock", "strap", "headset", "faceplate", "vertical",
+         "dualshock", "remote", "joystick"
+      ]
+    },
+    "nintendo": {
+      "items": [
+        "nintendo", "famicom", "gameboy", "gamecube", "cube"
+      ],
+      "jogos": [
+        "mario", "zelda", "kirby", "pokemon", "metroid", "link", "yoshi", "smash", "bros", 
+        "donkey", "kong", "animal", "crossing", "splatoon", "fox", "fire", "emblem", 
+        "luigi", "tetris", "bayonetta", "xenoblade", "paper", "warioware", "punch-out", 
+        "super", "kart", "advance"
+      ],
+      "acessorios": [
+        "amiibo", "charger", "dock", "strap", "screen", "protector", "bag", "adapter", 
+        "stand", "battery", "case", "cable", "pad", "pak"
+      ]
+    },
+    "sega": {
+      "items": [
+        "sega", "saturn", "genesis", "dreamcast", "megadrive", "master", "system", 
+         "sega cd"]
+    },
+    "microsoft": {
+      "jogos-consoles": [
+        "xbox", "360", "xbox360", "xbox one", "xbox series", "one s", "one x", "series s", 
+        "series x", "microsoft", "Halo 4 Limited Edition Xbox 360 Versão Japonesa"
+      ]
+    }
+  }
+  

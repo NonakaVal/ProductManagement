@@ -1,0 +1,41 @@
+{
+  "standard": [
+    "standard",
+    "standart",
+    "normal",
+    "regular"
+  ],
+  "limited": [
+    "limited",
+    "edição limitada",
+    "limitada"
+  ],
+  "japonesa": [
+    "japonesa",
+    "japan",
+    "limited edition japonesa",
+    "jp", 
+    "Japonês"
+  ],
+  "Collectors Edition": [
+    "collectors edition",
+    "collectors",
+    "Collector's"
+  ],
+  "Deluxe": [
+    "deluxe"
+  ],
+  "Unveiled Edition": [
+    "unveiled"
+  ],
+  "Special Edition": [
+    "special"
+  ],
+  "Edition Europeia": [
+    "europeia",
+    "eur"
+  ],
+  "Premium Edition": [
+    "premium"
+  ]
+}

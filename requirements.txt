@@ -1,0 +1,10 @@
+st-gsheets-connection
+streamlit 
+openpyxl
+langchain
+langchain_experimental
+langchain-community
+openai
+tabulate
+python-barcode 
+qrcode 

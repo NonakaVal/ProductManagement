@@ -1,0 +1,37 @@
+
+# Streamlit secrets
+.streamlit/secrets.toml
+# Database files
+db/
+etc/
+# Python-specific directories
+Include/
+codes/
+Lib/
+Scripts/
+share/
+tools/__pycache__/
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+
+# Virtual environment
+env/
+venv/
+.env
+
+controle
+
+# Python environment configuration
+pyvenv.cfg
+
+
+
+
+
+
+# Other system files
+.DS_Store
+*.swp
+*.swo
