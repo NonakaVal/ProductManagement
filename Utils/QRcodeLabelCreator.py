@@ -200,10 +200,11 @@ st.markdown('Baixe a tabela com o botão de download e carregue o arquivo CSV.')
 
 
 def create_qrcode_labels():
-    st.write("#### Selecione os itens para gerar etiquetas.")
+
+
     # Selecionar itens
     
-    df = select_items_to_ad(data)
+    df = select_items_to_ad(data, key=2)
     df = df[['TITLE', 'URL', 'MSHOPS_PRICE', 'SKU', 'ITEM_ID']]
 
 # Configuração de layout das etiquetas
@@ -219,7 +220,7 @@ def create_qrcode_labels():
         'sku_y': 240,
         'sku_spacing': 45,
         'barcode_x': 50,
-        'barcode_width': 600,
+        'barcode_width': 650,
         'barcode_height': 80,
         'barcode_bottom_padding': 20,
         'name_font_size': 28,
@@ -233,7 +234,7 @@ def create_qrcode_labels():
         'spacing_vertical': 10
     }
     
-    if st.button("Gerar PDF e Baixar"):
+    if st.button("Gerar PDF e Baixar", key=3):
         if df.empty:
             st.warning("Por favor, selecione pelo menos um item!")
         else:

@@ -1,7 +1,7 @@
 import streamlit as st
 from Utils.Get_Link import get_link
 
-def select_items_to_ad(df):
+def select_items_to_ad(df, key=1):
     """Allow the user to select items from the DataFrame, displaying SKU, ITEM_ID, and TITLE."""
     df['item_display'] = df['ITEM_ID'].astype(str) + ' - ' + df['SKU'].astype(str) + ' - ' + df['TITLE']
     item_options = df[['SKU', 'item_display', 'IMG']].set_index('SKU')['item_display'].to_dict()
@@ -12,7 +12,7 @@ def select_items_to_ad(df):
     selected_display_names = st.multiselect(
         "Nome, SKU ou código Mercado Livre", 
         options=list(item_options.values()), 
-        key=1, 
+        key=key, 
         placeholder="Pesquisar por Nome, SKU ou código Mercado Livre", 
         label_visibility="collapsed"
     )

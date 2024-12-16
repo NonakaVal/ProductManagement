@@ -94,7 +94,7 @@ def apply_filters(df, categories_df):
 
     max_quantity = min_quantity + 10
     df_filtered = filter_by_quantity(df_filtered, min_quantity, max_quantity)
-    df_filtered = get_link_edit(df_filtered)
+    # df_filtered = get_link_edit(df_filtered)
     
 
     return df_filtered
