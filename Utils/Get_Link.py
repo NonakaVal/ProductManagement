@@ -22,13 +22,11 @@ def get_link(data):
         lambda row: f"https://www.collectorsguardian.com.br/{row['ITEM_ID'][:3]}-{row['ITEM_ID'][3:]}-{row['TITLE'].replace(' ', '-').lower()}-_JM#item_id={row['ITEM_ID']}", 
         axis=1
     )
-
-    # Selecionando apenas as colunas desejadas
+    # por algum motivo inexplicável isso aqui ta sendo aplicado em todos os df
     
     selected_columns = ["IMG",'ITEM_ID', 'SKU','TITLE', 'MSHOPS_PRICE', 'URL','ITEM_LINK', "DESCRIPTION","CATEGORY"]
-    
-    data = data[selected_columns]
 
+    data = data[selected_columns]
 
     # Encurtando os links na coluna 'URL'
     shortened_data = shorten_links_in_df(data, link_column='URL')

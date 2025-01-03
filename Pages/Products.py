@@ -1,33 +1,17 @@
 
 import streamlit as st
-
 from Utils.LoadDataFrame import load_and_process_data
 from Utils.Selectors import select_items_to_ad
 from Utils.GoogleSheetManager import GoogleSheetManager
-# from Utils.LabelCreator import create_labels_from_dataframe_with_barcode
-# from Utils.QRcodeLabelCreator import create_qrcode_labels
-
-
-##############################################################################################
-# Inicializar a conexão com o Google Sheets
-##############################################################################################
+from Utils.LabelCreator import create_labels_from_dataframe_with_barcode
+from Utils.QRcodeLabelCreator import create_qrcode_labels
+from Utils.Reports import generate_report
+import datetime
 
 st.write("#### Tabela de Consulta de Produtos")
 
 # Em algum lugar no seu código
 data = load_and_process_data()
-
-# Se quiser exibir no Streamlit
-# st.dataframe(
-# data,
-# column_config={
-#     "URL": st.column_config.LinkColumn(display_text="Link do Produto"),
-#     "ITEM_LINK": st.column_config.LinkColumn(display_text="Editar Anúncio"),
-#     "IMG": st.column_config.ImageColumn(
-#         "Preview", help="Preview da imagem", width=130
-#     )
-# }
-# )
 
 ##############################################################################################
 # Função de Pesquisa por Correspondência de Palavras
@@ -46,7 +30,6 @@ def search_items(data, search_term):
         filtered_data = data
     return filtered_data
 
-
 search_term = st.text_input("Pesquisar por palavra-chave")
 
 # Filtra os dados com base no termo de pesquisa
@@ -62,10 +45,14 @@ column_config={
     )
 }
 )
-count = searched_data['QUANTITY'].sum().astype(int)
-st.write(f"Total de Itens: {count}")
 
+shape = data.shape
 
+st.write(f"Total de Itens: {shape[0]}")
+
+##############################################################################################
+# Inicializar a conexão com o Google Sheets
+##############################################################################################
 st.divider()
 gs_manager = GoogleSheetManager()
 url = st.secrets["product_url"]
@@ -107,7 +94,7 @@ def select_items(data):
 # Função principal do Streamlit
 ##############################################################################################
 
-st.write("#### Criar lista de itens com links encurtados")
+# st.write("#### Criar lista de itens com links encurtados")
 
 select = select_items_to_ad(data)
 
@@ -116,72 +103,101 @@ select = select_items_to_ad(data)
 ##############################################################################################
 ##############################################################################################
 
-
 if not select.empty:
 
     # Calcula o número total de itens
     total_items = select['CATEGORY'].value_counts().sum()
-      
-    # Aplicando a função nas colunas 'VALOR' e 'PAGO'
+    
+    # Remover formatação do preço e convertê-lo para inteiro
     select['MSHOPS_PRICE'] = select['MSHOPS_PRICE'].str.replace('R$', '', regex=False).str.replace(',00', '', regex=False).str.replace('.', '', regex=False).str.strip()
-    # Soma total dos preços e formatação
     select['MSHOPS_PRICE'] = select['MSHOPS_PRICE'].astype(int)
+
+    # Soma total dos preços e formatação
     price_counts = select["MSHOPS_PRICE"].sum()
     formatted_price = f"R$ {price_counts:,.2f}"
+
     st.write(f"Total de Itens: {total_items}")
     st.write(f"Valor Total: {formatted_price}")
 
+    # Gerar o relatório de saída
+    report_path = generate_report(select, config={})  # Configurar conforme necessário
+    st.write(f"Relatório de Saída gerado em: {report_path}")
+
+    # Criar o botão de download
+    with open(report_path, "rb") as file:
+        st.download_button(
+            label="Gerar Registro de Saída",
+            data=file,
+            file_name=f"Registro_de_saida_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt",
+            mime="text/plain"
+        )
+
+
+# if not select.empty:
+
+#     # Calcula o número total de itens
+#     total_items = select['CATEGORY'].value_counts().sum()
+      
+#     # Aplicando a função nas colunas 'VALOR' e 'PAGO'
+#     select['MSHOPS_PRICE'] = select['MSHOPS_PRICE'].str.replace('R$', '', regex=False).str.replace(',00', '', regex=False).str.replace('.', '', regex=False).str.strip()
+#     # Soma total dos preços e formatação
+#     select['MSHOPS_PRICE'] = select['MSHOPS_PRICE'].astype(int)
+#     price_counts = select["MSHOPS_PRICE"].sum()
+#     formatted_price = f"R$ {price_counts:,.2f}"
+#     st.write(f"Total de Itens: {total_items}")
+#     st.write(f"Valor Total: {formatted_price}")
+
 
 st.divider()
 st.divider()
 
-# def main():
-#     st.write("#### Selecione os itens para gerar etiquetas.")
-#     # Selecionar itens
+def main():
+    st.write("#### Selecione os itens para gerar etiquetas.")
+    # Selecionar itens
 
 
-#     tab1, tab2 = st.tabs(["Etiqueta com Barra de Código", "Etiqueta com QRCODE"])
+    tab1, tab2 = st.tabs(["Etiqueta com Barra de Código", "Etiqueta com QRCODE"])
 
-#     with tab1:
+    with tab1:
                 
-#         df = select_items(products)
+        df = select_items(products)
 
         
-#         # Configurações para etiquetas
-#         config = {
-#             'margin_top': 70,
-#             'margin_bottom': 50,
-#             'margin_left': 70,
-#             'margin_right': 50,
-#             'spacing_horizontal': 40,
-#             'spacing_vertical': 55,
-#             'name_font_size': 25,
-#             'small_font_size': 25,
-#             'name_x': 55,
-#             'name_y': 50,
-#             'ad_code_x': 55,
-#             'ad_code_y': 100,
-#             'barcode_x': 10,
-#             'barcode_bottom_padding': 10,
-#             'barcode_width': 650,
-#             'barcode_height': 100
-#         }
-#         if st.button("Gerar PDF e Baixar"):
-#             if df.empty:
-#                 st.warning("Por favor, selecione pelo menos um item!")
-#             else:
-#                 pdf_path = create_labels_from_dataframe_with_barcode(df, config)
-#                 with open(pdf_path, "rb") as pdf_file:
-#                     st.download_button(
-#                         label="Baixar PDF",
-#                         data=pdf_file,
-#                         file_name="etiquetas_barcode_33_a4.pdf",
-#                         mime="application/pdf"
-#                     )
-#     with tab2:
-#         create_qrcode_labels()
+        # Configurações para etiquetas
+        config = {
+            'margin_top': 70,
+            'margin_bottom': 50,
+            'margin_left': 70,
+            'margin_right': 50,
+            'spacing_horizontal': 40,
+            'spacing_vertical': 55,
+            'name_font_size': 25,
+            'small_font_size': 25,
+            'name_x': 55,
+            'name_y': 50,
+            'ad_code_x': 55,
+            'ad_code_y': 100,
+            'barcode_x': 10,
+            'barcode_bottom_padding': 10,
+            'barcode_width': 650,
+            'barcode_height': 100
+        }
+        if st.button("Gerar PDF e Baixar"):
+            if df.empty:
+                st.warning("Por favor, selecione pelo menos um item!")
+            else:
+                pdf_path = create_labels_from_dataframe_with_barcode(df, config)
+                with open(pdf_path, "rb") as pdf_file:
+                    st.download_button(
+                        label="Baixar PDF",
+                        data=pdf_file,
+                        file_name="etiquetas_barcode_33_a4.pdf",
+                        mime="application/pdf"
+                    )
+    with tab2:
+        create_qrcode_labels()
     
-# main()
+main()
 
 
 

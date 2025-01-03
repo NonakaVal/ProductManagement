@@ -226,12 +226,12 @@ def create_qrcode_labels():
         'name_font_size': 28,
         'price_font_size': 35,
         'small_font_size': 30,
-        'margin_top': 80,
-        'margin_bottom': 80,
+        'margin_top': 100,
+        'margin_bottom': 95,
         'margin_left': 40,
         'margin_right': 15,
-        'spacing_horizontal': 90,
-        'spacing_vertical': 10
+        'spacing_horizontal': 120,
+        'spacing_vertical': 90
     }
     
     if st.button("Gerar PDF e Baixar", key=3):
