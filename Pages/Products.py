@@ -8,7 +8,9 @@ from Utils.QRcodeLabelCreator import create_qrcode_labels
 from Utils.Reports import generate_report
 import datetime
 
+
 st.write("#### Tabela de Consulta de Produtos")
+st.write("Em caso de erro apenas atualize a página. F5")
 
 # Em algum lugar no seu código
 data = load_and_process_data()
