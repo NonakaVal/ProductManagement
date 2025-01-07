@@ -98,41 +98,44 @@ def select_items(data):
 
 # st.write("#### Criar lista de itens com links encurtados")
 
-select = select_items_to_ad(data)
+tab1, tab2 = st.tabs(["Criar Seleção para Anúncios", "Seleção para Etiquetas"])
+
+with tab1:
+    select = select_items_to_ad(data)
 
 
 
-##############################################################################################
-##############################################################################################
+    ##############################################################################################
+    ##############################################################################################
 
-if not select.empty:
+    if not select.empty:
 
-    # Calcula o número total de itens
-    total_items = select['CATEGORY'].value_counts().sum()
-    
-    # Remover formatação do preço e convertê-lo para inteiro
-    select['MSHOPS_PRICE'] = select['MSHOPS_PRICE'].str.replace('R$', '', regex=False).str.replace(',00', '', regex=False).str.replace('.', '', regex=False).str.strip()
-    select['MSHOPS_PRICE'] = select['MSHOPS_PRICE'].astype(int)
+        # Calcula o número total de itens
+        total_items = select['CATEGORY'].value_counts().sum()
+        
+        # Remover formatação do preço e convertê-lo para inteiro
+        select['MSHOPS_PRICE'] = select['MSHOPS_PRICE'].str.replace('R$', '', regex=False).str.replace(',00', '', regex=False).str.replace('.', '', regex=False).str.strip()
+        select['MSHOPS_PRICE'] = select['MSHOPS_PRICE'].astype(int)
 
-    # Soma total dos preços e formatação
-    price_counts = select["MSHOPS_PRICE"].sum()
-    formatted_price = f"R$ {price_counts:,.2f}"
+        # Soma total dos preços e formatação
+        price_counts = select["MSHOPS_PRICE"].sum()
+        formatted_price = f"R$ {price_counts:,.2f}"
 
-    st.write(f"Total de Itens: {total_items}")
-    st.write(f"Valor Total: {formatted_price}")
+        st.write(f"Total de Itens: {total_items}")
+        st.write(f"Valor Total: {formatted_price}")
 
-    # Gerar o relatório de saída
-    report_path = generate_report(select, config={})  # Configurar conforme necessário
-    st.write(f"Relatório de Saída gerado em: {report_path}")
+        # Gerar o relatório de saída
+        report_path = generate_report(select, config={})  # Configurar conforme necessário
+        st.write(f"Relatório de Saída gerado em: {report_path}")
 
-    # Criar o botão de download
-    with open(report_path, "rb") as file:
-        st.download_button(
-            label="Gerar Registro de Saída",
-            data=file,
-            file_name=f"Registro_de_saida_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt",
-            mime="text/plain"
-        )
+        # Criar o botão de download
+        with open(report_path, "rb") as file:
+            st.download_button(
+                label="Gerar Registro de Saída",
+                data=file,
+                file_name=f"Registro_de_saida_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt",
+                mime="text/plain"
+            )
 
 
 # if not select.empty:
@@ -149,66 +152,63 @@ if not select.empty:
 #     st.write(f"Total de Itens: {total_items}")
 #     st.write(f"Valor Total: {formatted_price}")
 
-
-st.divider()
-st.divider()
-
-def main():
-    st.write("#### Selecione os itens para gerar etiquetas.")
-    # Selecionar itens
+with tab2:
+    def main():
+        st.write("#### Selecione os itens para gerar etiquetas.")
+        # Selecionar itens
 
 
-    tab1, tab2 = st.tabs(["Etiqueta com Barra de Código", "Etiqueta com QRCODE"])
+        tab1, tab2 = st.tabs(["Etiqueta com Barra de Código", "Etiqueta com QRCODE"])
 
-    with tab1:
-                
-        df = select_items(products)
-
-        
-        # Configurações para etiquetas
-        config = {
-            'margin_top': 70,
-            'margin_bottom': 50,
-            'margin_left': 70,
-            'margin_right': 50,
-            'spacing_horizontal': 40,
-            'spacing_vertical': 55,
-            'name_font_size': 25,
-            'small_font_size': 25,
-            'name_x': 55,
-            'name_y': 50,
-            'ad_code_x': 55,
-            'ad_code_y': 100,
-            'barcode_x': 10,
-            'barcode_bottom_padding': 10,
-            'barcode_width': 650,
-            'barcode_height': 100
-        }
-        if st.button("Gerar PDF e Baixar"):
-            if df.empty:
-                st.warning("Por favor, selecione pelo menos um item!")
-            else:
-                pdf_path = create_labels_from_dataframe_with_barcode(df, config)
-                with open(pdf_path, "rb") as pdf_file:
-                    st.download_button(
-                        label="Baixar PDF",
-                        data=pdf_file,
-                        file_name="etiquetas_barcode_33_a4.pdf",
-                        mime="application/pdf"
-                    )
-    with tab2:
-        create_qrcode_labels()
-    
-main()
-
-
-
-
-
-st.sidebar.markdown("""
-
-            [Acessar Tabela Google Sheets](https://docs.google.com/spreadsheets/d/11gOfqJdk1Q49MLDQA-DeEH7YiGIf_kWdkp6CORk8t4A/edit?gid=1238567357#gid=1238567357)
+        with tab1:
                     
-            [Baixar Tabela Mercado Livre](https://www.mercadolivre.com.br/anuncios/edicao-em-excel?filters=OMNI_ACTIVE%7COMNI_INACTIVE%7CCHANNEL_NO_PROXIMITY_AND_NO_MP_MERCHANTS&order=DEFAULT&excelType=MARKETPLACE&channel=marketplace&callback_url=https%3A%2F%2Fwww.mercadolivre.com.br%2Fanuncios%2Flista%3Ffilters%3DOMNI_ACTIVE%257COMNI_INACTIVE%257CCHANNEL_NO_PROXIMITY_AND_NO_MP_MERCHANTS%26page%3D1%26sort%3DDEFAULT#from%3Dlistings)
+            df = select_items(products)
 
-""")
+            
+            # Configurações para etiquetas
+            config = {
+                'margin_top': 70,
+                'margin_bottom': 50,
+                'margin_left': 70,
+                'margin_right': 50,
+                'spacing_horizontal': 40,
+                'spacing_vertical': 55,
+                'name_font_size': 25,
+                'small_font_size': 25,
+                'name_x': 55,
+                'name_y': 50,
+                'ad_code_x': 55,
+                'ad_code_y': 100,
+                'barcode_x': 10,
+                'barcode_bottom_padding': 10,
+                'barcode_width': 650,
+                'barcode_height': 100
+            }
+            if st.button("Gerar PDF e Baixar"):
+                if df.empty:
+                    st.warning("Por favor, selecione pelo menos um item!")
+                else:
+                    pdf_path = create_labels_from_dataframe_with_barcode(df, config)
+                    with open(pdf_path, "rb") as pdf_file:
+                        st.download_button(
+                            label="Baixar PDF",
+                            data=pdf_file,
+                            file_name="etiquetas_barcode_33_a4.pdf",
+                            mime="application/pdf"
+                        )
+        with tab2:
+            create_qrcode_labels()
+        
+    main()
+
+
+
+
+
+    st.sidebar.markdown("""
+
+                [Acessar Tabela Google Sheets](https://docs.google.com/spreadsheets/d/11gOfqJdk1Q49MLDQA-DeEH7YiGIf_kWdkp6CORk8t4A/edit?gid=1238567357#gid=1238567357)
+                        
+                [Baixar Tabela Mercado Livre](https://www.mercadolivre.com.br/anuncios/edicao-em-excel?filters=OMNI_ACTIVE%7COMNI_INACTIVE%7CCHANNEL_NO_PROXIMITY_AND_NO_MP_MERCHANTS&order=DEFAULT&excelType=MARKETPLACE&channel=marketplace&callback_url=https%3A%2F%2Fwww.mercadolivre.com.br%2Fanuncios%2Flista%3Ffilters%3DOMNI_ACTIVE%257COMNI_INACTIVE%257CCHANNEL_NO_PROXIMITY_AND_NO_MP_MERCHANTS%26page%3D1%26sort%3DDEFAULT#from%3Dlistings)
+
+    """)
